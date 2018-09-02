@@ -1,0 +1,29 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
+  }
+  .example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+
+  .example-card {
+      margin-top:30px;
+      margin-left: 5px; 
+    max-width: 400px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://www.cityofchicago.org/content/dam/city/depts/dgs/general/Feature_photo_sales.jpg');
+    background-size: cover;
+  }
+  .center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}

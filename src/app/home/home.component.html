@@ -1,0 +1,148 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Weather</span>
+
+    <span class="example-spacer"></span>
+    
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<form  (ngSubmit)="onSubmit()" class="center">
+  <mat-form-field>
+    <input matInput placeholder="Enter City" [formControl]="cityFormControl"
+      [errorStateMatcher]="matcher"  [(ngModel)]="city"  name="city" type="text"  >
+    
+      <mat-hint>Errors appear instantly!</mat-hint>
+    
+      <mat-error *ngIf="cityFormControl.hasError('required')">
+      City is <strong>required</strong>
+      </mat-error>
+   
+    </mat-form-field>
+   
+    <button mat-stroked-button *ngIf="!cityFormControl.hasError('required')"(click)="saveForm()">Search</button>
+
+  </form>
+
+  <mat-grid-list cols="2">
+
+    <mat-grid-tile><mat-card class="example-card" *ngIf="weather">
+
+      <mat-card-header>
+
+        <div mat-card-avatar class="example-header-image"></div>
+
+        <mat-card-title>City:{{weather.city?.name}}</mat-card-title>
+
+        <mat-card-subtitle>{{weather.list[0]?.weather[0].description}}</mat-card-subtitle>
+
+      </mat-card-header>
+  
+      <img *ngIf="weather.list[0]?.main.humidity>=2 && weather.list[0]?.main.humidity<60"mat-card-image style="width: 200px;height: 200px;" src="/src/assets/sun.png" alt="sun">
+  
+      <img *ngIf="weather.list[0]?.main.humidity>=83"mat-card-image style="width: 200px;height: 200px;" src="/src/assets/rain.png" alt="rain">
+  
+      <img *ngIf="weather.list[0]?.main.humidity>=60 && weather.list[0]?.main.humidity<83"mat-card-image style="width: 200px;height: 200px;" src="/src/assets/suncloud.png" alt="clouds">
+     
+    <mat-card-content>
+    
+      <h3>longitude:{{weather.city?.coord.lon}}</h3>
+    
+      <h3>longitude:{{weather.city?.coord.lat}}</h3>
+    
+      <h3><strong>Temp</strong>:{{weather.list[0]?.main.temp}} F*</h3>
+    
+      <h3><strong>tempMax:</strong>{{weather.list[0]?.main.temp_max}} F*</h3>
+    
+      <h3><strong>tempMin: </strong>{{weather.list[0]?.main.temp_min}} F*</h3>
+    
+      <h3> <strong>humidity :</strong>{{weather.list[0]?.main.humidity}}</h3>
+    
+    </mat-card-content>
+  
+  </mat-card>
+</mat-grid-tile>
+
+<mat-grid-tile>
+  
+    <mat-list role="list"> 
+
+      <h1 class="text-center primary " > Recent Cities  </h1>
+
+      <div *ngFor="let data of _weatherService.getCities()">
+
+      <mat-list-item role="listitem"><app-read [data]="data"></app-read></mat-list-item>
+
+      </div>
+
+    </mat-list>
+
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+
+
+<!-- <mat-card class="example-card" *ngIf="weather">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>City:{{weather.city?.name}}</mat-card-title>
+    <mat-card-subtitle>{{weather.list[0]?.weather[0].description}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img *ngIf="weather.list[0]?.main.humidity>=2 && weather.list[0]?.main.humidity<60"mat-card-image style="width: 200px;height: 200px;" src="/src/assets/sun.png" alt="sun">
+  <img *ngIf="weather.list[0]?.main.humidity>=83"mat-card-image style="width: 200px;height: 200px;" src="/src/assets/rain.png" alt="rain">
+  <img *ngIf="weather.list[0]?.main.humidity>=60 && weather.list[0]?.main.humidity<83"mat-card-image style="width: 200px;height: 200px;" src="/src/assets/suncloud.png" alt="clouds">
+  
+ 
+  <mat-card-content>
+    <h3>longitude:{{weather.city?.coord.lon}}</h3>
+    <h3>longitude:{{weather.city?.coord.lat}}</h3>
+    <h3><strong>Temp</strong>:{{weather.list[0]?.main.temp}} F*</h3>
+    <h3><strong>tempMax:</strong>{{weather.list[0]?.main.temp_max}} F*</h3>
+    <h3><strong>tempMin: </strong>{{weather.list[0]?.main.temp_min}} F*</h3>
+    <h3> <strong>humidity :</strong>{{weather.list[0]?.main.humidity}}</h3>
+  </mat-card-content>
+
+</mat-card> -->
+<!-- <div class="container">
+  <!-- formControlName="city" [formControl]="myForm"-->
+
+   <!-- <form  [formGroup]="myForm" (ngSubmit)="onSubmit()" >
+    <div  class="form-group">
+      <label > city</label>
+      <input type="text" [formControl]="city" [(ngModel)]="city"[ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+      <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+          <div *ngIf="f.city.errors.required">City Name is required</div>
+      </div>
+      
+     </div>
+
+
+    <button class="btn btn-success" (click)="saveForm()">Save Changes</button>
+
+
+  </form> ->
+
+</div> -->
+<!-- <div class="container">
+
+
+  <div class="info">
+    <h1><strong> City:</strong>{{weather.city?.name}}</h1>
+    <h3>longitude:{{weather.city?.coord.lon}}</h3>
+    <h3>longitude:{{weather.city?.coord.lat}}</h3>
+    <h3><strong>Temp</strong>:{{weather.list[0]?.main.temp}}</h3>
+    <h3><strong>tempMax:</strong>{{weather.list[0]?.main.temp_max}}  </h3>
+    <h3><strong>tempMin: </strong>{{weather.list[0]?.main.temp_min}}</h3>
+    <h3> <strong>The weather description:</strong> {{weather.list[0]?.weather[0].description}}</h3>
+    <h3> <strong>humidity :</strong>{{weather.list[0]?.main.humidity}}</h3>
+
+  </div>
+
+
+</div> -->
+<!-- <app-create></app-create> -->
+
+
+<!-- <app-read></app-read> -->
